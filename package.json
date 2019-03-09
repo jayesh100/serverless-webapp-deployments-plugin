@@ -1,0 +1,19 @@
+{
+  "name": "serverless-webapp-deployments-plugin",
+  "version": "1.0.4",
+  "description": "A plugin for serverless to easily build, deploy and publish webapps to s3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jayesh Malhotra",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayesh100/serverless-webapp-deployments-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jayesh100/serverless-webapp-deployments-plugin/issues"
+  },
+  "homepage": "https://github.com/jayesh100/serverless-webapp-deployments-plugin#readme"
+}
