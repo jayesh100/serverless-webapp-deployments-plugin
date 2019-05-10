@@ -47,11 +47,12 @@ resources:
     WebAppS3Bucket:
       Type: AWS::S3::Bucket
       Properties:
+        BucketName: ${self:custom.s3Bucket}
         AccessControl: PublicRead
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
-    # Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront
+    # Specifying the policies to make sure all files inside the Bucket are avaialble
     WebAppS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -61,21 +62,18 @@ resources:
           Statement:
             - Sid: PublicReadGetObject
               Effect: Allow
-              Principal: "*"
+              Principal: '*'
               Action:
               - s3:GetObject
               Resource:
-                Fn::Join: [
-                  "", [
-                    "arn:aws:s3:::",
-                    { "Ref": "WebAppS3Bucket" },
-                    "/*"
-                  ]
-                ]
-
-  # In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation
+                Fn::Join:
+                  - ''
+                  -
+                    - 'arn:aws:s3:::'
+                    - !Ref WebAppS3Bucket
+                    - '/*'
+  # In order to print out the hosted domain we can run `serverless info`
   Outputs:
-    WebAppS3BucketOutput:
-      Value:
-        'Ref': WebAppS3Bucket
+    WebAppUrl:
+      Value: !GetAtt WebAppS3Bucket.WebsiteURL
 ```
