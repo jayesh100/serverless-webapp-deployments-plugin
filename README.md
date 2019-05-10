@@ -72,9 +72,8 @@ resources:
                     - 'arn:aws:s3:::'
                     - !Ref WebAppS3Bucket
                     - '/*'
-
   # In order to print out the hosted domain we can run `serverless info`
   Outputs:
-    WebAppS3Bucket:
-      Value: !GetAtt WebAppS3Bucket DomainName
+    WebAppUrl:
+      Value: !GetAtt WebAppS3Bucket.WebsiteURL
 ```
