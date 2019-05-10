@@ -64,7 +64,10 @@ class ServerlessPlugin {
       stderr += data;
     });
 
-    result.on('error', err => { this.serverless.cli.log('An error occurred while accessing the aws cli - please make sure it is installed'); stderr += err });
+    result.on('error', err => { 
+      this.serverless.cli.log('An error occurred while accessing the aws cli - please make sure it is installed'); 
+      stderr += err 
+    });
 
     await (new Promise((res, rej) => {
       result.on('close', code => res(code));
