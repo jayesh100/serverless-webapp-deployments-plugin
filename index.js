@@ -48,13 +48,13 @@ class ServerlessPlugin {
   }
 
   async autoDeploy() {
-    if (this.serverless.variables.service.custom.oneCmdDeploy){
+    if (this.serverless.variables.service.custom.oneCmdDeploy) {
       this.serverless.cli.log('Initiating webapp deployment...');
       await this.deployApp();
     }
   }
-  
-  async runCommand(cmd, args){
+
+  async runCommand(cmd, args) {
     const result = spawn(cmd, args);
     let stderr;
 
@@ -63,6 +63,8 @@ class ServerlessPlugin {
       this.serverless.cli.log(`Error: ${data}`);
       stderr += data;
     });
+
+    result.on('error', err => { this.serverless.cli.log('An error occurred while accessing the aws cli - please make sure it is installed'); stderr += err });
 
     await (new Promise((res, rej) => {
       result.on('close', code => res(code));
@@ -74,20 +76,20 @@ class ServerlessPlugin {
     return this.runCommand('aws', args);
   }
 
-  async deployApp(){
+  async deployApp() {
     await this.buildApp();
     await this.publishApp();
   }
 
-  async buildApp(){
+  async buildApp() {
     const buildScript = this.serverless.variables.service.custom.buildCommand;
-    if (!buildScript){
+    if (!buildScript) {
       this.serverless.cli.log(`Error: Could not find 'buildCommand' in custom variables`);
       throw new Error(`Could not find 'buildCommand' in custom variables`);
     }
     this.serverless.cli.log('Running build command...');
     const { stderr } = await this.runCommand('npm', ['run', buildScript]);
-    if (!stderr){
+    if (!stderr) {
       this.serverless.cli.log('Build successful!');
     } else {
       throw new Error(`Unable to build webapp`);
